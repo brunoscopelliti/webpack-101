@@ -1,0 +1,6 @@
+
+demo/node_modules/
+demo/bundle/
+
+demo/npm-debug.log
+demo/npm-debug.log.*
