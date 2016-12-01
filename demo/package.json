@@ -1,19 +1,28 @@
 {
   "name": "webpack-101",
   "version": "0.1.0",
+  "main": "app/index.js",
+  "author": "Bruno Scopelliti",
   "description": "A progressive webpack configuration demo/tutorial",
   "keywords": [
     "webpack",
     "webpack-configuration",
     "webpack-demo"
   ],
-  "author": "Bruno Scopelliti",
-  "license": "MIT",
+  "scripts": {
+    "lint": "eslint app/**",
+    "prestart": "webpack ./app/index.js ./bundle/app.js",
+    "start": "node ./bundle/app.js"
+  },
   "devDependencies": {
     "eslint": "3.10.2",
     "eslint-config-standard": "6.2.1",
     "eslint-plugin-promise": "3.4.0",
     "eslint-plugin-react": "6.7.1",
     "eslint-plugin-standard": "2.0.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "2.1.0-beta.27"
   }
 }
