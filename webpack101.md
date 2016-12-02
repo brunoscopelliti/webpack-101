@@ -252,7 +252,86 @@ Since we've created this configuration file, in the next steps will be much
 git checkout 03-webpack-dev-server
 ```
 
+Introducing webpack-dev-server
+---
+In order to run the app in a browser, we need before all a web server that
+ serves our pages, and resources.
+
+webpack has its own wrapper around the super famous `express` server, that
+ is webpack-process-aware, and can initially simplify the setup of a dev
+ server.
+
+So let's start by installing `webpack-dev-server` as dev dependency.
+
+```bash
+npm i -D webpack-dev-server
+```
+
+After that the installation is completed, the `webpack-dev-server` command
+ becomes available; from now on, we're going to use it to start our app.
+ We've changed our npm scripts configuration; now we've two distinct, and
+ indepentent commands to interact with webpack:
+
+```bash
+$ npm run
+Lifecycle scripts included in webpack-101:
+  start
+    webpack-dev-server
+
+available via `npm run-script`:
+  lint
+    eslint app/**
+  bundle
+    webpack
+```
+
+`npm start` creates the bundle, and start the dev server; `npm run bundle`
+ simply creates the new bundle.
+
+A crucial information is still missing.
+ We've also to update the webpack configuration, with the settings relative
+ to the web server.
+
+```js
+const config = {
+  ...
+  output: {
+    path: path.resolve(__dirname, 'bundle'),
+    filename: 'app.js',
+
+    // The publicPath specifies the public URL address of the output files
+    // when referenced in a browser.
+    // webpack-dev-server also takes a hint from publicPath using it
+    // to determine where to serve the output files from
+    publicPath: '/assets/'
+  },
+
+  devServer: {
+    open: true
+  }
+};
+```
+
+In this simple scenario we're relying upon some convenient webpack dev
+ server defaults, and just specify explicitly that, when the compilation
+ completes, your system default browser should be automatically open.
+ A complete list of configuration settings, and more examples could be found
+ on [webpack-dev-server documentation][wp-dev-server-doc].
+
+At this point running the `npm start` command, should cause the opening of
+ our default web browser on *localhost:8080/* (webpack-dev-server defaults);
+ inspecting the devtools console we should see the message "Hello".
+
+Now that we have a simple webpack setup, we'll start give some love to our
+ application; we'll diverge for a moment from webpack, and add a bit of
+ React.
+
+```bash
+git checkout 04-hello-react
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
 [wp-config]: http://webpack.github.io/docs/configuration.html
+[wp-dev-server-doc]: https://webpack.github.io/docs/webpack-dev-server.html

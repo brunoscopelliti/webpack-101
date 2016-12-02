@@ -11,6 +11,12 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'bundle'),
     filename: 'app.js',
+    publicPath: '/assets/',
+  },
+
+  // Configuration for webpack-dev-server CLI
+  devServer: {
+    open: true,
   },
 
 };
