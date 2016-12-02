@@ -201,6 +201,58 @@ Let's checkout to the next branch to learn how to configure webpack.
 git checkout 02-webpack-config
 ```
 
+Hello webpack.config.js
+---
+When we execute the `webpack` command without further arguments, webpack
+ expects to find in the execution path the `webpack.config.js` file, that
+ *exports* the configuration settings.
+
+You may sometimes wish to have different webpack configuration files in
+ the same project, and use one, or another depending on different factors
+ (for example the environment for which the build is performed).
+ In order to handle this use case the cli also accepts a `config` flag
+ through which it is possible to specify what configuration webpack should
+ load.
+
+```bash
+webpack --config webpack.config.js
+# or simply
+webpack
+```
+
+Time to add the configuration file.
+
+The most important thing to note is that `webpack.config.js` is a real
+ JavaScript module. You could do everything you want in this file; the only
+ things which matter are that it's valid JavaScript, and that it exports
+ an object coherent with the [webpack configuration interface][wp-config].
+
+So let's create our configuration file; currently, I just want to replicate
+ the previous bundle, using the configuration file.
+
+```js
+// demo/webpack.config.js
+module.exports = {
+  entry: './app/index.js',
+  output: {
+    path: path.resolve(__dirname, 'bundle'),
+    filename: 'app.js'
+  }
+}
+```
+
+That's enough!
+
+Since we've created this configuration file, in the next steps will be much
+ more easier to forge webpack behaviour to our will.
+ In the next step we'll add another essential block: we're going to run
+ our application in a browser.
+
+```bash
+git checkout 03-webpack-dev-server
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
+[wp-config]: http://webpack.github.io/docs/configuration.html
