@@ -386,6 +386,88 @@ However let's just run the app for now, and if everything is ok, you are
 git checkout 05-webpack-loaders-intro
 ```
 
+Loaders
+---
+In the previous step we installed `react-tools`, and relied on a `prestart`
+ task compile jsx syntax into plain JavaScript before the start of the
+ webpack web dev server.
+
+As mentioned this solution does not scale pretty well, and that's something 
+ webpack can help us with. Hello [loaders][wp-loaders]!
+
+webpack loaders allow you to preprocess files as you require() or "load"
+ them. Loaders are kind of like *tasks* are in other build tools, and
+ provide a powerful way to handle frontend build steps.
+ Loaders can transform files from a different language like, CoffeeScript
+ to JavaScript, or inline images as data URLs, and much more.
+
+So let's start by installing a loader able to compile jsx into plain
+ JavaScript.
+
+```bash
+npm i -S babel-core babel-loader babel-preset-react
+```
+
+I've also installed `babel-preset-es2015` that when enabled, instructs
+ babel to compile ES2015 syntax into ECMAScript5 compatible JavaScript.
+
+Loaders can be further configured, and at this purpose I also have added
+ a [`.babelrc` file][ref-babelrc].
+ Our .babelrc is pretty simple; we're just telling babel to use the presets
+ we've just installed.
+
+```json
+// demo/.babelrc
+{ "presets": [ "es2015", "react" ] }
+```
+
+To enable the loader we should update the webpack configuration file.
+
+```js
+const config = {
+  ...
+  module: {
+    rules: [{
+      test: /\.js$/,
+      include: path.resolve(__dirname, 'app'),
+      loader: 'babel-loader'
+    }]
+  },
+}
+```
+
+Please note that webpack does not permit anymore to omit the '-loader'
+ prefix when using loaders.
+
+How to read the previous snippet?
+ All the files contained in the `include` path, which pass the `test`
+ clause, will be preprocessed by the `babel` loader, that is able to
+ transform jsx syntax into regular JavaScript, and much more.
+
+Before continuing you should note that `rules` is an array, hence multiple
+ loaders could easily coexist. Moreover for the same resource the execution 
+ of a loader could be immediately chained to another loader:
+
+```js
+loaders: 'loaderB!loaderA'
+```
+
+In the next steps this feature will be useful.
+
+With the loader configuration in place, I could clean a little the codebase
+ removing the now superfluous `react-tools` dependency, and the prestart
+ task, cause now webpack handles the precompilation for us.
+
+More info about [webpack loaders configuration][wp-config-module].
+
+In the next step we'll continue talking about loaders, and touch a topic,
+ that is somehow advanced; we're going to write our first simple custom
+ loader.
+
+```bash
+git checkout 06-webpack-custom-loaders
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -395,3 +477,6 @@ git checkout 05-webpack-loaders-intro
 [eh-intro-redux]: https://egghead.io/courses/getting-started-with-redux
 [eh-react-redux]: https://egghead.io/courses/building-react-applications-with-idiomatic-redux
 [ref-jsx]: https://facebook.github.io/react/docs/introducing-jsx.html
+[wp-loaders]: https://webpack.github.io/docs/loaders.html
+[ref-babelrc]: https://babeljs.io/docs/usage/babelrc/
+[wp-config-module]: https://webpack.github.io/docs/configuration.html#module

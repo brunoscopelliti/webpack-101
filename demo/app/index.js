@@ -1,9 +1,9 @@
 
 const profile = require('./profile');
 
-const Greet = ({ profile: { name } }) => React.createElement("span", null, "Hello ",  name, "!");
+const Greet = ({ profile: { name } }) => <span>Hello { name }!</span>;
 
 ReactDOM.render(
-  React.createElement(Greet, {profile:  profile }),
+  <Greet profile={ profile } />,
   document.getElementById('root')
 );
