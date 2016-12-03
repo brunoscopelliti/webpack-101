@@ -621,6 +621,48 @@ When you've done we could proceed with the next step.
 git checkout 07-bundling-deps
 ```
 
+Messing with node_modules
+---
+It's time to address another of the concerns we've already expressed about
+ the status of our current solution.
+ Using React through the `React`, and `ReactDOM` global variables it's not
+ the best solution; we should import `react` as every other dependencies
+ from `node_modules` folder.
+
+webpack can handle this without further configuration; but we need to have
+ these dependencies installed.
+
+```bash
+npm install -S react react-dom
+```
+
+Now we have just to require, or import these dependencies in our app code.
+
+In the future we could take advantage of this also to enable server side
+ rendering, and other goodies.
+
+Let's now create a fresh new bundle:
+
+```bash
+$ npm run bundle
+
+Hash: 8f1a79849c8ac2674479
+Version: webpack 2.1.0-beta.27
+Time: 1541ms
+ Asset    Size  Chunks             Chunk Names
+app.js  726 kB       0  [emitted]  main
+  [79] ./app/profile.json 269 bytes {0} [built]
+    + 178 hidden modules
+```
+
+As expected the size of the bundle is now bigger;
+ webpack offers different strategies to fix this issue, and starting from
+ the next step we'll tackle this concern.
+
+```bash
+git checkout 08-webpack-plugin-intro
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work

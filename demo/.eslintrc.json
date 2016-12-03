@@ -4,10 +4,6 @@
         "node": true,
         "es6": true
     },
-    "globals": {
-        "React": false,
-        "ReactDOM": false
-    },
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaFeatures": {
@@ -37,6 +33,7 @@
             "error",
             "always"
         ],
+        "react/jsx-uses-react": 2,
         "react/jsx-uses-vars": 2
     }
 }
