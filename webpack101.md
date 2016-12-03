@@ -330,8 +330,68 @@ Now that we have a simple webpack setup, we'll start give some love to our
 git checkout 04-hello-react
 ```
 
+Hello React
+---
+React is not the topic of this tutorial.
+ However webpack is a tool very popular especially in the React ecosystem.
+ Since we're not going to explore webpack in the abstract, building a web
+ app using React seems a reasonable choice.
+
+The code of the application won't be too much hard to understand, even if
+ you have zero experience with React; however I eventually recommend you
+ the following resources as starting point to learn React:
+
+* [React tutorial][ref-react-tutorial]
+
+* Dan Abramov's free course on egghead.io about [Redux][eh-intro-redux] and
+ [React + Redux][eh-react-redux] are a great starting point.
+
+###React, and JSX
+Initially we keep things simple.
+ I included React library directly in HTML document, and interacted with
+ the library through the two global variables `React`, and `ReactDOM`.
+ This is not the best approach, and soon we'll improve; however for know
+ it's better to keep things as much simple as we can. 
+
+One of the characteristic of React is the [jsx sintax][ref-jsx], it uses
+ to define the DOM of a component.
+ jsx is optional, in the sense that it's possible to write a React app,
+ ignoring that jsx even exists; however this approach would require much
+ more time, and it's more typo-errors prone.
+
+Here, we're going to use jsx.
+
+However since browsers can't interpret jsx syntax, we now need a `prestart`
+ task, that compile the jsx syntax into regular JavaScript.
+
+For the moment we install `react-tools`, that makes available the jsx command,
+ and restore the prestart task:
+
+```json
+"compile-jsx": "jsx app/ app/ --no-cache-dir --extension jsx",
+"prestart": "npm run compile-jsx",
+"start": "webpack-dev-server"
+```
+
+That's work!
+ But... I don't consider this the best possible approach: when we'll need
+ to add another precompilation step (think about minification for example)
+ our npm scripts section will become too clumsy.
+
+However let's just run the app for now, and if everything is ok, you are
+ going to see a blank page with the same message of the previous step.
+ In this case it's time to move on:
+
+```bash
+git checkout 05-webpack-loaders-intro
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
 [wp-config]: http://webpack.github.io/docs/configuration.html
 [wp-dev-server-doc]: https://webpack.github.io/docs/webpack-dev-server.html
+[ref-react-tutorial]: https://facebook.github.io/react/tutorial/tutorial.html
+[eh-intro-redux]: https://egghead.io/courses/getting-started-with-redux
+[eh-react-redux]: https://egghead.io/courses/building-react-applications-with-idiomatic-redux
+[ref-jsx]: https://facebook.github.io/react/docs/introducing-jsx.html

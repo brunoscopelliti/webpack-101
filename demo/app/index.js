@@ -1,5 +1,9 @@
 
 const profile = require('./profile');
 
-// eslint-disable-next-line no-console
-console.log(`Hello ${ profile.name }!`);
+const Greet = ({ profile: { name } }) => React.createElement("span", null, "Hello ",  name, "!");
+
+ReactDOM.render(
+  React.createElement(Greet, {profile:  profile }),
+  document.getElementById('root')
+);
