@@ -1,6 +1,8 @@
 
 const path = require('path');
 
+const appFolder = path.resolve(__dirname, 'app');
+
 const config = {
 
   // The entry point for the bundle.
@@ -16,8 +18,20 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'app'),
+        include: appFolder,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.js$/,
+        include: appFolder,
+        loader: path.resolve(__dirname, 'loaders', 'use-strict-loader')
+      }, {
+        test: /\.json$/,
+        include: appFolder,
+        loader: path.resolve(__dirname, 'loaders', 'custom-json-loader'),
+
+        // It's possible to configure the loader by specifing parameters
+        query: "tabSize=2"
       },
     ]
 

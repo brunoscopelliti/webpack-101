@@ -468,6 +468,159 @@ In the next step we'll continue talking about loaders, and touch a topic,
 git checkout 06-webpack-custom-loaders
 ```
 
+Custom Loaders
+---
+If we inspect the generated bundle, we can note a small defect.
+ Each module uses the `"use strict";` pragma two times.
+
+```js
+"use strict";
+'use strict';
+
+var profile = __webpack_require__(0);
+...
+```
+
+This is probably a bug of `babel`.
+ We can temporarily disable the use-strict transformation from the .babelrc
+ file.
+
+```json
+"presets": [ 
+  [ "es2015", { "modules": false } ],
+  "react" 
+]
+```
+
+However now we have the opposite problem; that is there is no `"use strict";`
+ pragma at all.
+
+We're going to fix this issue writing our own webpack custom loader.
+
+###"use strict"; loader
+Writing a loader is usually simple as is simple the task it should perform.
+
+So let's start writing our custom loader for a really simple task.
+ Our loaders has just to prepend the `use strict` pragma to our modules.
+
+Let's start giving a look to the [webpack loader docs][wp-write-loader].
+ We learn that a loader is nothing more than a module that exports a
+ function.
+ This should not be too much hard to code.
+
+```js
+module.exports = function loader(source) {
+
+  // It receives the content of the file that is being loaded
+  // as input parameter.
+
+  // It has access to the webpack loader api from its context
+
+  console.log(this); // webpack api
+
+
+  // It should return a string (or a Buffer),
+  // that eventually exports something
+  return 'module.exports = 42;';
+
+};
+```
+
+Now that we have the backbone of a loader, the only piece still missing
+ is the logic that adds the pragma.
+ It won't be too much hard to write.
+
+```js
+// demo/loaders/use-strict-loader.js
+const pragma = JSON.stringify('use strict;')
+
+module.exports = function loader(source) {
+  this.cacheable()
+  return `${ pragma };\n${ source };`;
+}
+```
+
+To enable our custom loader, we've just to push it in the webpack loaders
+ configuration.
+
+```js
+const config = {
+  module: {
+    rules: [
+      ...,
+      {
+        test: /\.js$/,
+        include: appFolder,
+        loader: path.resolve(__dirname, 'loaders', 'use-strict-loader')
+      }
+    ]
+  },
+}
+```
+
+###A custom json loader
+Let's consider now another simple task.
+
+Let's say we want a loader to load a json.
+ This is something that [webpack can handle autonomously][wp-json-loader],
+ but for now let's pretend we've to write it from scratch, and we'll take
+ this occasion to add also a feature to the default webpack json loader.
+
+We'll use `JSON.parse`, and `JSON.stringify` for this... so it won't be
+ hard.
+ To make things a little more interesting let's say we care also about the
+ indentation of the generated object; and in the end we would like to
+ permit to the final user to customize it.
+
+Lucky for us, loaders accepts querystring-like parameters, that are then
+ available in the context of the loader as `this.query`. We can set the
+ option in the configuration file:
+
+```js
+const config = {
+  module: {
+    rules: [
+      ...
+      {
+        test: /\.json$/,
+        include: appFolder,
+        loader: path.resolve(__dirname, 'loaders', 'custom-json-loader'),
+        query: "tabSize=2"
+      }
+    ]
+  },
+}
+```
+
+Back to the code of our loader.
+
+I've also installed `loader-utils`, cause I'm lazy and don't want to write
+ my own parse function. That's the final result:
+
+```js
+// demo/loaders/custom-json-loader.js
+const utils = require('loader-utils');
+
+module.exports = function loader(source) {
+  this.cacheable();
+  const parsedObject = parseJSON(source);
+  const { tabSize } = utils.parseQuery(this.query);
+  return `module.exports = ${ JSON.stringify(parsedObject, null, Number(tabSize)) };`;
+};
+```
+
+And that's it!
+
+Of course, there's more on this topic; I encourage you to read the doc, and
+ try yourself when the opportunity arise to write your own loader.
+ Another great way to proceed is to take a look at other loaders, [this is a small list][github-wp-loaders].
+
+When you've done we could proceed with the next step.
+
+```bash
+git checkout 07-bundling-deps
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -480,3 +633,6 @@ git checkout 06-webpack-custom-loaders
 [wp-loaders]: https://webpack.github.io/docs/loaders.html
 [ref-babelrc]: https://babeljs.io/docs/usage/babelrc/
 [wp-config-module]: https://webpack.github.io/docs/configuration.html#module
+[wp-json-loader]: https://github.com/webpack/json-loader
+[wp-write-loader]: https://webpack.github.io/docs/how-to-write-a-loader.html
+[github-wp-loaders]: https://github.com/webpack?utf8=%E2%9C%93&query=loader

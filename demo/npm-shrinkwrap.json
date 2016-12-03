@@ -1590,7 +1590,7 @@
     },
     "loader-utils": {
       "version": "0.2.16",
-      "from": "loader-utils@>=0.2.16 <0.3.0",
+      "from": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz",
       "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz"
     },
     "lodash": {

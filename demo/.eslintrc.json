@@ -17,6 +17,7 @@
         "sourceType": "module"
     },
     "plugins": [
+        "json",
         "react"
     ],
     "rules": {
