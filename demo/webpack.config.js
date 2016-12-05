@@ -1,6 +1,8 @@
 
 const path = require('path');
 
+const webpack = require('webpack');
+
 const appFolder = path.resolve(__dirname, 'app');
 
 const config = {
@@ -36,6 +38,23 @@ const config = {
     ]
 
   },
+
+  // Plugin extends the default behaviour of webpack compiler
+  plugins: [
+
+    // webpack uglify
+    // minimize the whole bundle
+    // https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      }
+    }),
+
+  ],
 
   // Options affecting the output of the compilation
   output: {

@@ -663,6 +663,69 @@ As expected the size of the bundle is now bigger;
 git checkout 08-webpack-plugin-intro
 ```
 
+Intro to webpack plugin
+---
+webpack permits to extend its behaviour through the use of [plugins][wp-config-plugin]
+ which add functionality typically related to bundles in webpack.
+
+Sometimes plugins and loader are confused. The confusion is probably due to
+ the fact that both plugins, and loaders are configured in similiar way;
+ however they have different purpose. 
+ The general rule of thumb I use to distinguish them is that loaders work
+ on individual files. Plugins, instead, may work on the whole bundle, and
+ perform tasks which affect the whole bundle; they usually access webpack
+ internals at a deeper level.
+ The [webpack uglify plugin][wp-uglify-plugin] is a perfect example. It
+ affects the whole bundle by minimizing it.
+
+Let's try to extend our webpack setup so that it eventually minify the
+ produced bundle.
+
+```js
+const config = {
+  ...
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      }
+    })
+  ]
+}
+```
+
+As also loader's `rules`, `plugins` is an array; so we can eventually add
+ more than one plugin for the same bundle.
+ This is a [list of webpack's plugin][wp-plugin-list]
+
+Let's create a new bundle with the current setup.
+ As expected the new minified bundle is far less heavy than the previous.
+
+```bash
+bash-3.2$ npm run bundle
+
+Hash: 8f1a79849c8ac2674479
+Version: webpack 2.1.0-beta.27
+Time: 3310ms
+ Asset    Size  Chunks             Chunk Names
+app.js  219 kB       0  [emitted]  main
+  [79] ./app/profile.json 269 bytes {0} [built]
+    + 178 hidden modules
+```
+
+This could still be improved, but before diggin' further in this problem,
+ we now have to solve another problem that we have introduced: we've just
+ made our code impossible to debug.
+ In the next couples of steps we're going to address this problem, and
+ solve it.
+
+```bash
+git checkout 09-conditionals-config
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -678,3 +741,6 @@ git checkout 08-webpack-plugin-intro
 [wp-json-loader]: https://github.com/webpack/json-loader
 [wp-write-loader]: https://webpack.github.io/docs/how-to-write-a-loader.html
 [github-wp-loaders]: https://github.com/webpack?utf8=%E2%9C%93&query=loader
+[wp-config-plugin]: https://webpack.github.io/docs/configuration.html#plugins
+[wp-plugin-list]: https://webpack.github.io/docs/list-of-plugins.html
+[wp-uglify-plugin]: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
