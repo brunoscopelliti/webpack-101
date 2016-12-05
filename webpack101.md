@@ -726,6 +726,59 @@ This could still be improved, but before diggin' further in this problem,
 git checkout 09-conditionals-config
 ```
 
+Conditional configuration
+---
+The first countermeasure we're going to implement to limitate the hassle of
+ working with minified sources is to recur to minification only where
+ strictly necessary, that is when we run the build for the production
+ environment.
+
+This is pretty straightforward to achieve.
+
+```js
+const config = {
+  ...
+  plugins: []
+};
+
+if (process.env.NODE_ENV === 'production'){
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      ...
+    })
+  );
+}
+```
+
+This is the fist time we've created a branch in our configuration file;
+ don't forget that `webpack.config.js` file is a plain, regular JavaScript
+ module... and this, and more tricks are permitted.
+
+We've now just to set the `NODE_ENV` environment variable.
+ In order to have consistent result across different OS (window/os/linux)
+ I am going to install a new dependency, [env-cmd][npm-env-cmd], and update
+ the npm scripts section of the `package.json`.
+
+```json
+"scripts": {
+  "bundle": "env-cmd ./.env.prod webpack",
+  "start": "env-cmd ./.env.dev webpack-dev-server"
+}
+```
+
+That's for sure better that the previous situation, however it's still
+ not enough.
+ This solution does not cover a couple of important scenarios; for example
+ what can we do to improve our experience debugging production code, or
+ is there anything we could do to simplify the code inspection of a bundle,
+ that even for a such simple app easily reaches 30K LoC?
+
+Sourcemap to the rescue!
+
+```bash
+git checkout 10-add-sourcemap
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -744,3 +797,4 @@ git checkout 09-conditionals-config
 [wp-config-plugin]: https://webpack.github.io/docs/configuration.html#plugins
 [wp-plugin-list]: https://webpack.github.io/docs/list-of-plugins.html
 [wp-uglify-plugin]: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+[npm-env-cmd]: https://www.npmjs.com/package/env-cmd

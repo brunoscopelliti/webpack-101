@@ -41,19 +41,6 @@ const config = {
 
   // Plugin extends the default behaviour of webpack compiler
   plugins: [
-
-    // webpack uglify
-    // minimize the whole bundle
-    // https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      }
-    }),
-
   ],
 
   // Options affecting the output of the compilation
@@ -69,5 +56,23 @@ const config = {
   },
 
 };
+
+if (process.env.NODE_ENV === 'production'){
+
+  config.plugins.push(
+    // webpack uglify
+    // minimize the whole bundle
+    // https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      }
+    })
+  );
+
+}
 
 module.exports = config;
