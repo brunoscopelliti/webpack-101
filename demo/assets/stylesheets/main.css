@@ -1,0 +1,37 @@
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	margin: 20px;
+}
+
+.card {
+	display: flex;
+	align-items: flex-start;
+}
+
+img {
+	display: block;
+	max-width: 256px;
+}
+
+.cardProfileInfo {
+	padding: 0;
+	padding-left: 10px; 
+}
+
+.label {
+	background: #eee;
+	border-radius: 2px;
+	margin: 5px 0;
+	opacity: .8;
+	padding: 4px;
+}
+
+.label .title {
+	color: #3cb371;
+	display: block;
+	font-size: 12px;
+	margin: 0;
+	margin-bottom: 3px;
+	text-transform: capitalize;
+}

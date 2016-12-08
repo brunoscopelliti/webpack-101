@@ -804,6 +804,33 @@ Now that we have a reasonable setup, in the next step we're going to work
 git checkout 11-style-app
 ```
 
+Style the app
+---
+Starting for now, and for the next steps, we're going to focus our work
+ on improving the look of our application.
+
+As always, we start keeping things simple.
+ So let's add some CSS in the most classic way, by adding a `link` tag in
+ the document head.
+
+```html
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600'/>
+<link rel='stylesheet' href='/assets/stylesheets/main.css'/>
+```
+
+The only thing worth nothing here is that the path point to the same 
+ `/assets` folder that webpack has configured as `publicPath`.
+
+This works pretty well, and has a tracked record of having worked pretty
+ well all the days in the last ~20 yrs.
+ However let your natural reluctance for a second at the door and follow me
+ in this crazyness... let's try to make webpack responsable also for the
+ bundling of the css.
+
+```bash
+git checkout 12-webpack-style-app
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
