@@ -779,6 +779,31 @@ Sourcemap to the rescue!
 git checkout 10-add-sourcemap
 ```
 
+Sourcemap
+---
+The ultimate solution for our problem, it is to make webpack generate not
+ only the bundle, but also a sourcemap, that browsers can interpret in
+ order to provide us a better source code during the code inspection.
+
+webpack supports different [types of sourcemap][wp-config-devtool]; each
+ with its peculiar pros and cons.
+ I invite you to checkout them directly on the webpack doc pages, and pick
+ the one you prefer.
+
+Here we're going with `cheap-source-map`.
+
+```js
+devtool: 'cheap-source-map'
+```
+
+Now that we have a reasonable setup, in the next step we're going to work
+ more on the front end of the application trying to render the rendered
+ pixels less ugly.
+
+```bash
+git checkout 11-style-app
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -798,3 +823,4 @@ git checkout 10-add-sourcemap
 [wp-plugin-list]: https://webpack.github.io/docs/list-of-plugins.html
 [wp-uglify-plugin]: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
 [npm-env-cmd]: https://www.npmjs.com/package/env-cmd
+[wp-config-devtool]: https://webpack.github.io/docs/configuration.html#devtool

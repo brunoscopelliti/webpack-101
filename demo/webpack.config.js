@@ -55,6 +55,8 @@ const config = {
     open: true,
   },
 
+  devtool: 'cheap-source-map',
+
 };
 
 if (process.env.NODE_ENV === 'production'){
