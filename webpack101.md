@@ -930,6 +930,44 @@ In the next step we're going to close our excursion in CSS field, and
 git checkout 14-extract-css
 ```
 
+Extract CSS
+---
+Let's start by installing [extract-text-webpack-plugin][wp-extract-text-plugin].
+
+At this point, we should know how to configure a new webpack plugin.
+ In this case the edit affects two different areas of `webpack.config.js`;
+ we should add the plugin in the plugins list, but also update the loader
+ configuration.
+
+Again I'm branching the configuration;
+ I am ok with the fact that CSS is inlined in the head in the dev
+ environment, but don't want this to happen in prod.
+
+If we run `npm run bundle` we see that now also a separate `style.css` file
+ is created (with its respective source map).
+
+```bash
+$ npm run bundle
+
+Hash: 532c71a1a1617e1b2722
+Version: webpack 2.1.0-beta.27
+Time: 4034ms
+                             Asset       Size  Chunks             Chunk Names
+                            app.js     219 kB       0  [emitted]  main
+    ./assets/stylesheets/style.css  618 bytes       0  [emitted]  main
+./assets/stylesheets/style.css.map  132 bytes       0  [emitted]  main
+  [79] ./app/profile.json 269 bytes {0} [built]
+    + 179 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+Time to move on, and add some new features to our app.
+
+```bash
+git checkout 15-app-rework
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -953,3 +991,4 @@ git checkout 14-extract-css
 [ref-css-modules]: https://github.com/css-modules/css-modules
 [wild-ref-css-modules]: https://glenmaddern.com/articles/css-modules
 [github-css-loader]: https://github.com/webpack/css-loader
+[wp-extract-text-plugin]: https://github.com/webpack/extract-text-webpack-plugin

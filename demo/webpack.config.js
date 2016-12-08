@@ -2,6 +2,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
+const WebpackExtractText = require('extract-text-webpack-plugin');
 
 const appFolder = path.resolve(__dirname, 'app');
 
@@ -37,7 +38,14 @@ const config = {
       }, {
         test: /\.css$/,
         include: appFolder,
-        loader: 'style-loader!css-loader?modules'
+        loader: (
+          process.env.NODE_ENV === 'development' ?
+            'style-loader!css-loader?modules' :
+            WebpackExtractText.extract({
+              notExtractLoader: 'style-loader',
+              loader: 'css-loader?modules&sourceMap'
+            })
+        )
       },
     ]
 
@@ -45,6 +53,14 @@ const config = {
 
   // Plugin extends the default behaviour of webpack compiler
   plugins: [
+
+    // https://github.com/webpack/extract-text-webpack-plugin
+    new WebpackExtractText({
+      filename: './assets/stylesheets/style.css',
+      disable: process.env.NODE_ENV === 'development',
+      allChunks: true
+    }),
+
   ],
 
   // Options affecting the output of the compilation
