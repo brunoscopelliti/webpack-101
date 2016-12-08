@@ -883,6 +883,53 @@ So currently the CSS rules we've defined into the `card.css` file end up
 git checkout 13-css-modules
 ```
 
+CSS Modules
+---
+Css Modules [[1][ref-css-modules], [2][wild-ref-css-modules]] is a
+ technique, or an approach to CSS that reduces the issue that usually we
+ have when working with CSS in large codebase, or in large team.
+
+At its core the idea is pretty simple but really powerful, and blink the
+ eye to what web component, with shadow-dom, will be one day.
+
+A CSS module is a CSS file in which class names and animation names are
+ scoped locally by default, so that it's simply impossible that a rule
+ inadvertitely conflicts, or override another one.
+
+This is obtained thanks to a transformation that the original class names
+ undergo during the loading, that make them uniques on component basis.
+
+[webpack's css-loader][github-css-loader] supports natively CSS Modules; 
+ it's only necessary to enable them via webpack configuration.
+
+```js
+loader: 'style-loader!css-loader?modules'
+```
+
+... and then start using them.
+
+```js
+import cardStyle from './card.css';
+<div className={ cardStyle.card }></div>
+```
+
+In our case this will produce the following DOM element.
+
+```html
+<div class="_2d-vOwCeaxMsdvHR2lIHK0">
+  <span class="le2GuhkfBu0rzgJPlpNIa">name:</span>
+  <span>Bruno Scopelliti</span>
+</div>
+```
+
+In the next step we're going to close our excursion in CSS field, and
+ finally remove the `<style />` declaration from the document head, by
+ moving it into its specific file.
+
+```bash
+git checkout 14-extract-css
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -903,3 +950,6 @@ git checkout 13-css-modules
 [wp-uglify-plugin]: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
 [npm-env-cmd]: https://www.npmjs.com/package/env-cmd
 [wp-config-devtool]: https://webpack.github.io/docs/configuration.html#devtool
+[ref-css-modules]: https://github.com/css-modules/css-modules
+[wild-ref-css-modules]: https://glenmaddern.com/articles/css-modules
+[github-css-loader]: https://github.com/webpack/css-loader

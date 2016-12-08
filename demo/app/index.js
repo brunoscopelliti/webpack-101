@@ -4,13 +4,13 @@ import { render } from 'react-dom';
 
 import profile from './profile';
 
-import './card.css';
+import cardStyle from './card.css';
 
 function Label({ title, value }) {
   return (
-    <div className='label'>
-      <span className='title'>{ title }:</span>
-      <span className='value'>{ value }</span>
+    <div className={ cardStyle.label }>
+      <span className={ cardStyle.title }>{ title }:</span>
+      <span className={ cardStyle.value }>{ value }</span>
     </div>
   );
 }
@@ -21,14 +21,14 @@ function Card({ profile }){
 
   const info = Object.keys(profile)
     .filter(prop => !propertyBlacklist.includes(prop))
-    .map((prop, i, arr) => ( 
+    .map((prop, i) => ( 
       <Label key={ i } title={ prop } value={ profile[prop] } />
      ));
 
   return (
-    <div className='card'>
-      <img src={ profile.avatar } alt={ profile.name } />
-      <div className='cardProfileInfo'>{ info }</div>
+    <div className={ cardStyle.card }>
+      <img className={ cardStyle.cardAvatar } src={ profile.avatar } alt={ profile.name } />
+      <div className={ cardStyle.cardProfileInfo }>{ info }</div>
     </div>
   );
 }

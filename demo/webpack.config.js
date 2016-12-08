@@ -37,7 +37,7 @@ const config = {
       }, {
         test: /\.css$/,
         include: appFolder,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader?modules'
       },
     ]
 

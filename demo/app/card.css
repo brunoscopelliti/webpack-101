@@ -4,12 +4,14 @@
 	align-items: flex-start;
 }
 
-img {
+.cardAvatar {
 	display: block;
 	max-width: 256px;
 }
 
 .cardProfileInfo {
+	line-height: 22px;
+	max-width: 320px;
 	padding: 0;
 	padding-left: 10px; 
 }
@@ -19,7 +21,11 @@ img {
 	border-radius: 2px;
 	margin: 5px 0;
 	opacity: .8;
-	padding: 4px;
+	padding: 2px 4px;
+}
+
+.label:nth-child(1) {
+	margin-top: 0;
 }
 
 .label .title {

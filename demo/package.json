@@ -10,7 +10,7 @@
     "webpack-demo"
   ],
   "scripts": {
-    "lint": "eslint app/**",
+    "lint": "eslint app/**.js",
     "bundle": "env-cmd ./.env.prod webpack",
     "start": "env-cmd ./.env.dev webpack-dev-server"
   },
