@@ -968,6 +968,50 @@ Time to move on, and add some new features to our app.
 git checkout 15-app-rework
 ```
 
+Let's work on the app
+---
+In this step we're going to take a break from webpack, refactoring
+ the application, and add a couple of new features to it.
+ This is what we've done here:
+
+* Refactoring the app folder structure.
+  I like to have a `components/` directory to contain all the components
+  used in the project; and a `state/` directory to state-related things.
+
+* Created a `GithubPicker` component, that loads the user profile data
+   directly from Github (`profile.json` was removed).
+
+* Installed `redux`, and `react-redux`; and created the first reducers.
+
+Let's check how our bundle has changed.
+
+```bash
+$ npm run bundle
+
+Hash: 8b328be90e39302aab04
+Version: webpack 2.1.0-beta.27
+Time: 6877ms
+                             Asset       Size  Chunks             Chunk Names
+                            app.js     247 kB       0  [emitted]  main
+    ./assets/stylesheets/style.css  933 bytes       0  [emitted]  main
+./assets/stylesheets/style.css.map  146 bytes       0  [emitted]  main
+    + 234 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+Now that our app is growing in complexity, and more dependencies are
+ joining the bundle, start to make sense to separate the application code
+ from the vendor code into two separate bundles.
+ In the next step we'll understand better the reason for this choice, and
+ learn how achieve this with webpack:
+
+```bash
+git checkout 16-chunk-splitting
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work

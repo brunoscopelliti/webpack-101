@@ -1,0 +1,13 @@
+
+.githubPickerLabel {
+  font-size: 13px;
+}
+
+.githubPicker input {
+  background: #fff;
+  border: 1px solid #555;
+  box-sizing: border-box;
+  margin-right: 2px;
+  padding: 4px;
+  width: 220px;
+}

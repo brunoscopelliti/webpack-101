@@ -3,3 +3,16 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	margin: 20px;
 }
+
+.appContainer {
+	overflow: hidden;
+	width: 320px;
+}
+
+button {
+	background: #2ecc40;
+	border: 1px solid #2ecc40;
+	border-radius: 2px;
+	color: #fff;
+	font-weight: 600;
+}

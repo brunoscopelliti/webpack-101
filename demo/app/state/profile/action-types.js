@@ -1,0 +1,5 @@
+
+export default {
+  SET_PROFILE: 'SET_PROFILE',
+  RESET_PROFILE: 'RESET_PROFILE'
+}

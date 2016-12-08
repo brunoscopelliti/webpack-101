@@ -2,6 +2,7 @@
 .card {
 	display: flex;
 	align-items: flex-start;
+	flex-direction: column;
 }
 
 .cardAvatar {
@@ -11,28 +12,28 @@
 
 .cardProfileInfo {
 	line-height: 22px;
-	max-width: 320px;
+	margin: 0;
 	padding: 0;
-	padding-left: 10px; 
+	width: 256px;
 }
 
 .label {
 	background: #eee;
 	border-radius: 2px;
-	margin: 5px 0;
+	margin: 1px 0;
 	opacity: .8;
 	padding: 2px 4px;
-}
-
-.label:nth-child(1) {
-	margin-top: 0;
 }
 
 .label .title {
 	color: #3cb371;
 	display: block;
 	font-size: 12px;
+	font-weight: 600;
 	margin: 0;
 	margin-bottom: 3px;
 	text-transform: capitalize;
+}
+.label .value {
+	font-weight: 100;
 }
