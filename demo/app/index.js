@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 
 import profile from './profile';
 
+import './card.css';
+
 function Label({ title, value }) {
   return (
     <div className='label'>

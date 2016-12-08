@@ -34,6 +34,10 @@ const config = {
 
         // It's possible to configure the loader by specifing parameters
         query: "tabSize=2"
+      }, {
+        test: /\.css$/,
+        include: appFolder,
+        loader: 'style-loader!css-loader'
       },
     ]
 

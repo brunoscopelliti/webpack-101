@@ -831,6 +831,58 @@ This works pretty well, and has a tracked record of having worked pretty
 git checkout 12-webpack-style-app
 ```
 
+Bundling CSS with webpack
+---
+Let's start by splitting our CSS.
+ We want to distinguish the part that is of general utility, from the rules
+ that characterize a `card` component; the latter will be included into a
+ `card.css` file stored at the same level of the component.
+
+In order to load these additional rules we've simply to import them, as
+ they were a normal JavaScript dependency.
+
+```js
+// demo/app/index.js
+import './card.css';
+```
+
+In order to make this work we have to configure properly webpack, adding a
+ couple of custom loaders able to hanlde CSS files.
+ For this reason I've installed `css-loader`, and `style-loader`.
+
+```bash
+npm i -S css-loader style-loader
+```
+
+They perform different operations, but it's often useful to chain them
+ together.
+ It's possible to chain loader execution using `!`,
+
+```js
+loader: 'style-loader!css-loader'
+```
+
+With this loader in place, webpack searches for CSS files dependencies
+ inside the modules. That is webpack checks to see if any JavaScript file
+ has a CSS dependency.
+ Each matching dependency is passed as input to `css-loader`, that loads
+ the CSS (eventually resolving its own dependencies) into JSON. 
+ The result is then passed to `style-loader`, that take the JSON and add
+ it to a `<style />` tag in the document head.
+
+So currently the CSS rules we've defined into the `card.css` file end up
+ being copy/pasted inside a style tag in the head of the document.
+ You may ask how this could be considered an improvement over what we had
+ just the commit before this one.
+ And you would be right! We're going to address your doubts in one of the
+ next steps, but before going to solve the `<style />` problem, let's try
+ to understand why I am so convinced that let webpack handle CSS could
+ be beneficial in some cases.
+
+```bash
+git checkout 13-css-modules
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
