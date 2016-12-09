@@ -1572,6 +1572,11 @@
       "from": "hash.js@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/hash.js/-/hash.js-1.0.3.tgz"
     },
+    "history": {
+      "version": "3.2.1",
+      "from": "history@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/history/-/history-3.2.1.tgz"
+    },
     "hoist-non-react-statics": {
       "version": "1.2.0",
       "from": "hoist-non-react-statics@>=1.0.3 <2.0.0",
@@ -2326,6 +2331,11 @@
       "from": "react-redux@latest",
       "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-4.4.6.tgz"
     },
+    "react-router": {
+      "version": "3.0.0",
+      "from": "react-router@latest",
+      "resolved": "https://registry.npmjs.org/react-router/-/react-router-3.0.0.tgz"
+    },
     "read-pkg": {
       "version": "1.1.0",
       "from": "read-pkg@>=1.0.0 <2.0.0",
@@ -2677,6 +2687,11 @@
       "version": "0.0.4",
       "from": "vm-browserify@0.0.4",
       "resolved": "https://registry.npmjs.org/vm-browserify/-/vm-browserify-0.0.4.tgz"
+    },
+    "warning": {
+      "version": "3.0.0",
+      "from": "warning@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/warning/-/warning-3.0.0.tgz"
     },
     "watchpack": {
       "version": "1.1.0",

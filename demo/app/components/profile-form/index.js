@@ -2,7 +2,13 @@
 import React from 'react';
 
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
+
+import { setSelectedUser } from 'state/selectedUser/actions';
+import { setProfile, resetProfile } from 'state/profile/actions';
+
+import fetchProfile from 'libs/get-user-profile/';
 
 import { updateProfile } from 'state/profile/actions';
 
@@ -13,6 +19,15 @@ class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
+  }
+
+  componentWillMount(){
+    const { profile, currentUser } = this.props;
+    if (currentUser !== '' && typeof profile.name == 'undefined'){
+      this.props.setSelectedUser(currentUser);
+      fetchProfile(currentUser)
+        .then(this.props.setProfile, this.props.resetProfile);
+    }
   }
 
   onPropertyChange(event) {
@@ -45,6 +60,9 @@ class ProfileForm extends React.Component {
           <label className={ 'is-highlighted ' + profileFormStyle.fieldLabel } htmlFor='email'>Email:</label>
           <input type='email' id='email' name='email' value={ profile.email || '' } onChange={ this.onPropertyChange } />
         </fieldset>
+        <div className={ profileFormStyle.buttonsRow }>
+          <Link to={ '' }>Done</Link>
+        </div>
       </form>
     );
   }
@@ -53,12 +71,13 @@ class ProfileForm extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    currentUser: ownProps.params.username,
     profile: Object.assign({}, state.profile)
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateProfile }, dispatch);
+  return bindActionCreators({ updateProfile, setSelectedUser, setProfile, resetProfile }, dispatch);
 }
 
 export default connect(

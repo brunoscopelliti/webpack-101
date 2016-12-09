@@ -1,20 +1,29 @@
 
 form.profileForm {
-  background: #eee;
-  box-sizing: border-box;
-  width: 256px;
-  padding: 5px 3px;
+    background: #eee;
+    box-sizing: border-box;
+    width: 256px;
+    padding: 5px 3px;
 }
 
 .title {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 5px 0 10px;
-  padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px 0 10px;
+    padding: 0;
 }
 
 .fieldLabel {
-  display: block;
-  margin: 0;
-  margin-bottom: 3px;
+    display: block;
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+.buttonsRow {
+    margin-top: 10px;
+}
+.buttonsRow a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
 }

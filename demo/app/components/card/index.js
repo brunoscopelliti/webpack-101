@@ -3,6 +3,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router';
+
 import { Label } from './label';
 import { EmptyResult } from './card-404';
 
@@ -24,8 +26,9 @@ class Card extends React.Component {
 
     return (
       <div className={ cardStyle.card }>
-        <h2>
-          {user}'s profile
+        <h2 className={ cardStyle.cardTitle }>
+          <span>{user}'s profile</span>
+          <Link to={ `edit/${user}` }>Edit</Link>
         </h2>
         <div>
           <img className={ cardStyle.cardAvatar } src={ profile.avatar } alt={ profile.name } />

@@ -11,7 +11,7 @@ const config = {
   // The entry point for the bundle.
   // The name is resolved to a module which is loaded upon startup.
   entry: {
-    vendor: [ 'react', 'react-dom', 'redux', 'react-redux' ],
+    vendor: [ 'react', 'react-dom', 'react-router', 'redux', 'react-redux' ],
     app: './app/index.js'
   },
 
@@ -66,8 +66,7 @@ const config = {
 
     // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'config.enableEditing': process.env.ENABLE_EXPERIMENTAL_FEATURES
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
 
     // https://github.com/webpack/extract-text-webpack-plugin
@@ -95,6 +94,7 @@ const config = {
   // Configuration for webpack-dev-server CLI
   devServer: {
     open: true,
+    historyApiFallback: true,
   },
 
   devtool: 'cheap-source-map',

@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { setSelectedUser } from 'state/selectedUser/actions';
 import { setProfile, resetProfile } from 'state/profile/actions';
 
+import fetchProfile from 'libs/get-user-profile/';
+
 import pickerStyle from './stylesheets/index.css';
 
 import Button from 'components/button/';
@@ -20,26 +22,10 @@ class GithubPicker extends React.Component {
   fetchFromGithub(){
     const user = this.refs.field.value;
     this.props.setSelectedUser(user);
-    fetch(`https://api.github.com/users/${ user }`)
-      .then(response => {
-        if (!response.ok)
-          throw new Error(`Network request failed: ${response.statusText}`);
-        return response.json();
-      })
-      .then(data => {
-        const { name, bio, location, email } = data;
-        this.props.setProfile({
-          name,
-          bio,
-          location,
-          email,
-          avatar: data.avatar_url.substring(0, data.avatar_url.indexOf('?'))
-        });
-      }, () => {
-        this.props.resetProfile();
-      });
+    fetchProfile(user)
+      .then(this.props.setProfile, this.props.resetProfile);
 
-      this.refs.field.value = '';
+    this.refs.field.value = '';
   }
 
   render() {

@@ -1349,6 +1349,36 @@ In the next step we're going to improve further our application, removing
 git checkout 20-routes
 ```
 
+Routes
+---
+Our app is growing, and the UI is becoming messy.
+ Let's split across multiple routes. This will require to work more on the
+ web application source, than on the webpack configuration.
+ However since we want that the app continues to work indipendently from 
+ what the initial loaded route is, there will be something to change also
+ in the webpack configuration.
+
+```js
+const config = {
+  ...
+  devServer: {
+    open: true,
+    historyApiFallback: true
+  }
+}
+```
+
+I won't go in details of the app implementation here; but you could always
+ inspect the history on Github.
+
+In the next step we're going to cover another important topic, that could
+ help us improve further page loading performance. 
+ We'll explore async loading.
+
+```bash
+git checkout 21-async-loading
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work

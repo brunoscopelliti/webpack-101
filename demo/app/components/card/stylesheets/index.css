@@ -5,6 +5,18 @@
 	flex-direction: column;
 }
 
+h2.cardTitle{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 256px;
+}
+h2.cardTitle a {
+	color: #000;
+	font-size: 14px;
+	text-decoration: none;
+}
+
 .cardAvatar {
 	display: block;
 	max-width: 256px;
