@@ -65,7 +65,7 @@ const config = {
 
     // http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor']
+      names: ['vendor', 'manifest']
     }),
 
   ],
@@ -73,7 +73,8 @@ const config = {
   // Options affecting the output of the compilation
   output: {
     path: path.resolve(__dirname, 'bundle'),
-    filename: '[name].js',
+    filename: process.env.NODE_ENV === 'production' ?
+      '[name].[chunkhash].js' : '[name].js',
     publicPath: '/assets/',
   },
 

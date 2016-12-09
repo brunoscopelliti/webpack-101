@@ -1169,6 +1169,66 @@ In the next step we'll continue our talks on cache with another important
 git checkout 17-using-hash
 ```
 
+File Hash
+---
+One of the most important objective in term of cache performance is the
+ possibility to serve a new file only when the content has really changed.
+
+webpack make this particularly easy to obtain, because on the basis of the
+ content of the file it generates an hash, and associate it to the file.
+ Editing the config we could make possible that this hash is included in the
+ filename.
+
+```js
+const config = {
+  ...
+  output: {
+    path: path.resolve(__dirname, 'bundle'),
+    filename: process.env.NODE_ENV === 'production' ?
+      '[name].[chunkhash].js' : '[name].js',
+  },
+}
+```
+
+Apparently this work fine.
+ When we run `npm run bundle` the files are created, and the name contains
+ the hash sequence.
+
+However there's a subtle problem with the current solution.
+ When we change the content of a file contained in the `app.js` bundle we
+ can notice that also the hash of vendor file changes.
+ This is far from desidered!
+ This is caused by the fact that inside the `vendor.js` file is bundled
+ also the webpack runtime that starts the whole application and the
+ dependency information needed by it (so also the hashes of the other
+ chunks).
+ When the `app.js` hash changes also a small part of `vendor.js` changes,
+ and consequently also its hash.
+
+In order to avoid this issue we've to configure webpack to make it extract
+ these information in a third file, the manifest.
+
+```js
+plugins: [
+  ...
+  new webpack.optimize.CommonsChunkPlugin({
+    names: ['vendor', 'manifest']
+  }),
+],
+```
+
+Now webpack runtime is inside the `manifest.js` file, that is small, and
+ we could eventually afford to have its cache invalidated more often.
+
+This should have fixed this issue.
+
+Before continue the development, let's take a look at the application.
+ Is there anything we could still improve?
+
+```bash
+git checkout 18-relative-paths
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
