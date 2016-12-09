@@ -3,8 +3,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Label } from './label.js';
-import { EmptyResult } from './card-404.js';
+import { Label } from './label';
+import { EmptyResult } from './card-404';
 
 import cardStyle from './stylesheets/index.css';
 

@@ -4,12 +4,12 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { setSelectedUser } from '../../state/selectedUser/actions';
-import { setProfile, resetProfile } from '../../state/profile/actions';
+import { setSelectedUser } from 'state/selectedUser/actions';
+import { setProfile, resetProfile } from 'state/profile/actions';
 
 import pickerStyle from './stylesheets/index.css';
 
-import Button from '../button/';
+import Button from 'components/button/';
 
 class GithubPicker extends React.Component {
   constructor(props){

@@ -15,6 +15,14 @@ const config = {
     app: './app/index.js'
   },
 
+  // Options affecting the resolving of modules.
+  resolve: {
+    modules: [
+      appFolder,
+      'node_modules',
+    ]
+  },
+
   module: {
 
     // Loaders allow you to preprocess files as you require() or "load" them. 

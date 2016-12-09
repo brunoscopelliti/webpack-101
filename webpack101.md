@@ -1229,6 +1229,67 @@ Before continue the development, let's take a look at the application.
 git checkout 18-relative-paths
 ```
 
+Block "../../../" Proliferation
+---
+Looking at the application code, we could see a bad pattern emerging, when
+ we have to import our own dependencies.
+ The use of deep relative referencing.
+
+```js
+// components/github-picker/index.js
+import { setSelectedUser } from '../../state/selectedUser/actions';
+```
+
+That's far from an uncommon problem, and [there are several ways to address it][ref-organize-modules].
+
+We're going to address this issue, always referencing our modules starting
+ from a specific root folder.
+ We should configure webpack so that it gives greater priority to the app
+ modules.
+
+```js
+const config = {
+  ...
+  resolve: {
+    modules: [
+      appFolder,
+      'node_modules'
+    ]
+  }
+};
+```
+
+I usually follow this rule of thumb
+
+* Use relative path when the imported module is a sibling, or in a folder
+ who has an ancestor that is sibling of the current file. You can see this
+ here:
+
+```js
+// components/card/index.js
+import { EmptyResult } from './card-404';
+import cardStyle from './stylesheets/index.css';
+```
+
+* Use point free import in all the other case
+
+```js
+// app.js
+import React from 'react'; // that's from node_modules
+
+import Card from 'components/card/'; // that's in ./app
+```
+
+This was a low-cost improvements, but now it's far way easy to decipher
+ the path to which an import points to.
+
+With this nice improvement in place we're going to continue add features
+ to the application.
+
+```bash
+git checkout 19-feature-flag
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -1254,3 +1315,4 @@ git checkout 18-relative-paths
 [github-css-loader]: https://github.com/webpack/css-loader
 [wp-extract-text-plugin]: https://github.com/webpack/extract-text-webpack-plugin
 [wp-common-chunk-plugin]: http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
+[ref-organize-modules]: https://github.com/substack/browserify-handbook#avoiding-
