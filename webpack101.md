@@ -1012,6 +1012,163 @@ Now that our app is growing in complexity, and more dependencies are
 git checkout 16-chunk-splitting
 ```
 
+Chunk Splitting
+---
+In this step we're going to split our application across two different
+ bundles.
+
+In order to understand why we do this, you need to understand that having
+ a single huuuge file is bad from cache performance perspective, because
+ everytime a single module changes, the whole bundle gets invalidated; and
+ since it contains all the modules it has plenty of reasons to change (a
+ bug fix, a new feature, the upgrade of a dependency).
+
+In order to mitigate this we're going to separate our application code from
+ third party dependencies, so that when we perform a bugfix, the cached
+ version of our dependency bundle - that most ofter is the biggest part -
+ remains valid, and viceversa.
+
+Note that we're starting with two bundles, but you could create any numbers
+ of them.
+
+Until now we've explicitly set our app entry point a single file:
+
+```js
+const config = {
+  entry: './app/index.js',
+  ...
+}
+```
+
+It shouldn't necessarily be a string; in fact webpack permits it to be also
+an array, or an object.
+When we pass an object, multiple entry bundles are created, and the name of
+each chunk is equal to the name of the key in the object.
+
+```js
+const config = {
+  entry: {
+    vendor: [ 'react', 'react-dom', 'redux', 'react-redux' ],
+    app: './app/index.js',
+  },
+  ...
+}
+```
+
+In this case as you may see, the value can still be a string, or even an
+ array to bundle multiple modules in the same file.
+
+Let's run `nmp run bundle`.
+
+```bash
+ERROR in chunk vendor [entry]
+app.js
+Conflict: Multiple assets emit to the same filename 'app.js'
+```
+
+What is happening is pretty clear.
+ We want to create two files, but our output configuration still tells
+ webpack to write everyting in `app.js`.
+
+```js
+const config = {
+  ...
+  output: {
+    path: path.resolve(__dirname, 'bundle'),
+    filename: 'app.js',
+  }
+}
+```
+
+When the configuration creates more than a single "chunk", it's possible to
+ use to specific placeholder to still create a unique, and prevedible
+ filename.
+ For example `[name]` is replaced by the name of the chunk.
+
+```js
+const config = {
+  ...
+  output: {
+    path: path.resolve(__dirname, 'bundle'),
+    filename: '[name].js',
+  }
+}
+```
+
+Let's run the bundle command again.
+ This time everything seem to have worked, but that's just a good reminder
+ that we'd better always check the output statistics!
+
+```bash
+$ npm run bundle
+
+Hash: 117ad7cbaab933f183e1
+Version: webpack 2.1.0-beta.27
+Time: 10870ms
+                             Asset       Size  Chunks             Chunk Names
+                            app.js     247 kB       0  [emitted]  app
+                         vendor.js     239 kB       1  [emitted]  vendor
+    ./assets/stylesheets/style.css  933 bytes       0  [emitted]  app
+./assets/stylesheets/style.css.map  146 bytes       0  [emitted]  app
+ [234] multi vendor 64 bytes {1} [built]
+    + 234 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+Have you noticed the problem now?
+Despite we have splitted the dependencies from our application code, the
+ `app.js` file is still bigger than `vendor.js`.
+
+That's bad, but expected. 
+ This is happening because by default when splitting into chunk each chunk 
+ starting from the specified entry point gets bundled with its own
+ dependencies.
+ In this case for example React is bundled inside `vendor.js` as expected,
+ but also inside `app.js`, because it is imported somewhere.
+
+In this case this is an issue; [CommonsChunkPlugin][wp-common-chunk-plugin]
+ can help us improve the situation.
+
+```js
+plugins: [
+  ...
+  new webpack.optimize.CommonsChunkPlugin({
+    names: ['vendor']
+  }),
+],
+```
+
+And, here we go:
+
+```bash
+$ npm run bundle
+
+Hash: 4a4e0db499ec04b9ddd6
+Version: webpack 2.1.0-beta.27
+Time: 7583ms
+                             Asset       Size  Chunks             Chunk Names
+                            app.js    7.63 kB       0  [emitted]  app
+                         vendor.js     240 kB       1  [emitted]  vendor
+    ./assets/stylesheets/style.css  933 bytes       0  [emitted]  app
+./assets/stylesheets/style.css.map  146 bytes       0  [emitted]  app
+ [234] multi vendor 64 bytes {1} [built]
+    + 234 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+Child extract-text-webpack-plugin:
+        + 2 hidden modules
+```
+
+In the next step we'll continue our talks on cache with another important
+ piece of the puzzle.
+
+```bash
+git checkout 17-using-hash
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -1036,3 +1193,4 @@ git checkout 16-chunk-splitting
 [wild-ref-css-modules]: https://glenmaddern.com/articles/css-modules
 [github-css-loader]: https://github.com/webpack/css-loader
 [wp-extract-text-plugin]: https://github.com/webpack/extract-text-webpack-plugin
+[wp-common-chunk-plugin]: http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin

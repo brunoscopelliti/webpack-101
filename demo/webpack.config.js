@@ -10,8 +10,10 @@ const config = {
 
   // The entry point for the bundle.
   // The name is resolved to a module which is loaded upon startup.
-  entry: './app/index.js',
-
+  entry: {
+    vendor: [ 'react', 'react-dom', 'redux', 'react-redux' ],
+    app: './app/index.js'
+  },
 
   module: {
 
@@ -61,12 +63,17 @@ const config = {
       allChunks: true
     }),
 
+    // http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor']
+    }),
+
   ],
 
   // Options affecting the output of the compilation
   output: {
     path: path.resolve(__dirname, 'bundle'),
-    filename: 'app.js',
+    filename: '[name].js',
     publicPath: '/assets/',
   },
 
