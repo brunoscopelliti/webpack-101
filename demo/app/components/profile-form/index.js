@@ -31,7 +31,40 @@ class ProfileForm extends React.Component {
   }
 
   onPropertyChange(event) {
-    this.props.updateProfile(event.target.name, event.target.value);
+    const { name, type, value } = event.target;
+    if (type === 'email'){
+      this.validate(value).then(isEmailValid => {
+        if (isEmailValid){
+          this.props.updateProfile(name, value);
+        }
+      });
+    }
+    else {
+      this.props.updateProfile(name, value);
+    }
+  }
+
+  validate(email) {
+    return System.import('email-validator').then(validator => {
+      return validator.validate(email);
+    }, error => {
+      console.log('Loading erroror', err.message);
+    });
+
+    // return require.ensure(['email-validator'], function(require) {
+    //   const { validate } = require('email-validator');
+    //   return validate(email);
+    // });
+
+    // return new Promise(function(res, rej) {
+    //   require(['email-validator'], function(validator) {
+    //     try{
+    //       res(validator.validate(email));
+    //     } catch(err){
+    //       rej(err);
+    //     }
+    //   });
+    // });
   }
 
   render() {

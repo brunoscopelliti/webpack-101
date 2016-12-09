@@ -1379,6 +1379,91 @@ In the next step we're going to cover another important topic, that could
 git checkout 21-async-loading
 ```
 
+Async loading
+---
+Let's say we want to add email validation.
+ Email validation is hard, and I sure don't want to reinvent the wheel.
+ Let's install `email-validation`.
+
+If we import this new dependency as we did in analogous cases before,
+ we're going to have it always added in the bundle, and in most cases it
+ probably won't be used at all.
+ In this case, this is not the optimal solution.
+
+In case like this the best approach is to asynchronously load the needed
+ module only when it is effectively needed.
+
+One big difference between webpack and other module loaders (think for
+ example at require.js) is that it permits to asynchronously load a
+ dependency, without further configuration, but simply adding *split point*
+ in the source code.
+
+There are up to three different ways now to create a such split point, and
+ the choice is left up to you.
+
+###CommonJS like
+
+```js
+const dependencies = ['libA'];
+require.ensure(dependencies, function(require) {
+  const lib = require('libA');
+});
+```
+
+The `require.ensure` method ensures that every dependency in dependencies
+ can be synchronously required when calling the callback. 
+ The callback is called with the `require` function as parameter.
+
+```js
+// components/profile-form/index.js
+require.ensure(['email-validator'], function(require) {
+  const { validate } = require('email-validator');
+});
+```
+
+Note that `require.ensure` only loads the modules.
+
+###AMD style
+
+```js
+const dependencies = ['libA'];
+require.ensure(dependencies, function(libA) {
+  // libA is already the exported module
+});
+```
+
+Another option is to use the AMD require style.
+ AMD spec defines an asynchronous `require` method, that when executed
+ loads all the dependencies, and the callback is executed with the exports
+ of the loaded dependencies as parameters.
+
+```js
+// components/profile-form/index.js
+require(['email-validator'], function(validator) {
+  const { validate } = validator;
+});
+```
+
+###System.import
+
+```js
+System.import('email-validator')
+  .then(validator => {
+    return validator.validate(email);
+  }, error => {
+    console.log('Loading erroror', err.message);
+  });
+```
+
+This is a webpack@2-only feature;
+ and it has the big advantage of being Promise based.
+
+Let's proceed.
+
+```bash
+git checkout 22-hot-reloading
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work

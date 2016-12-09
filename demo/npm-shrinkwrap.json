@@ -706,6 +706,11 @@
       "from": "elliptic@>=6.0.0 <7.0.0",
       "resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.3.2.tgz"
     },
+    "email-validator": {
+      "version": "1.0.7",
+      "from": "email-validator@latest",
+      "resolved": "https://registry.npmjs.org/email-validator/-/email-validator-1.0.7.tgz"
+    },
     "emojis-list": {
       "version": "2.1.0",
       "from": "emojis-list@>=2.0.0 <3.0.0",
