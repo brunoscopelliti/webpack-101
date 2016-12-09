@@ -64,6 +64,12 @@ const config = {
   // Plugin extends the default behaviour of webpack compiler
   plugins: [
 
+    // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'config.enableEditing': process.env.ENABLE_EXPERIMENTAL_FEATURES
+    }),
+
     // https://github.com/webpack/extract-text-webpack-plugin
     new WebpackExtractText({
       filename: './assets/stylesheets/style.css',

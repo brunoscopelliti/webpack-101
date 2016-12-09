@@ -1290,6 +1290,65 @@ With this nice improvement in place we're going to continue add features
 git checkout 19-feature-flag
 ```
 
+Feature Flags
+---
+Feature Flags are useful in a number of different ways. We can hide new
+ features behind feature flag, or envinronment specific behaviour, such as
+ logging, analytics, etc.
+
+webpack, through the [DefinePlugin][wp-define-plugin], allows us to easily
+ introduce feature flags into the bundle.
+
+```js
+const config = {
+  ...
+  plugins: [
+    new webpack.DefinePlugin({
+      'config.enableEditing': process.env.ENABLE_EXPERIMENTAL_FEATURES
+    }),
+  ],
+}
+```
+
+Then we can use `config.enableEditing` directly in the source code of the
+ application to create branch.
+
+```js
+// app.js
+<div className='appContainer'>
+  <GuthubPicker />
+  <Card />
+  { config.enableEditing && <ProfileForm /> }
+</div>
+```
+
+###React and Redux
+React, and Redux libraries implements different behaviours on the basis
+ of the environment in which are executed.
+ One example of this are the warning message, that in the development
+ environment are much more verbose, and often really useful.
+
+So we could also take this occasion to add the `process.env` in our bundle. 
+
+```js
+new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+  'config.enableEditing': process.env.ENABLE_EXPERIMENTAL_FEATURES
+})
+```
+
+Note how I've wrapped the string value inside a `JSON.stringify` call;
+ that's cause otherwise the substitution with the plain value in the code
+ would have produced an invalid syntax.
+
+In the next step we're going to improve further our application, removing
+ the feature flag, and making the editing form always available on a
+ different route.
+
+```bash
+git checkout 20-routes
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -1316,3 +1375,4 @@ git checkout 19-feature-flag
 [wp-extract-text-plugin]: https://github.com/webpack/extract-text-webpack-plugin
 [wp-common-chunk-plugin]: http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
 [ref-organize-modules]: https://github.com/substack/browserify-handbook#avoiding-
+[wp-define-plugin]: http://webpack.github.io/docs/list-of-plugins.html#defineplugin

@@ -13,3 +13,11 @@ export function resetProfile(){
     type: actions.RESET_PROFILE
   };
 }
+
+export function updateProfile(prop, value){
+  return {
+    type: actions.UPDATE_PROFILE,
+    prop,
+    value
+  };
+}
