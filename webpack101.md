@@ -1583,6 +1583,23 @@ Wow this was huge.
 git checkout 23-express
 ```
 
+Custom server
+---
+We initially have opted to use webpack dev server, because this choice
+ would have simplified a lot the setup of our application.
+
+As last step of this tutorial, we're going to replace webpack web dev
+ server with a custom server, based on [express][ref-express].
+ Naturally, we don't want lose anything of our current setup.
+
+As you can see from the changeset, we're still using `webpack.config.js`
+ to configure the express webpack middleware.
+
+We can now run `npm start`, and launch the application, that now will be
+ run on a custom express server.
+
+And that's all folks :pig:
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
@@ -1610,3 +1627,4 @@ git checkout 23-express
 [wp-common-chunk-plugin]: http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
 [ref-organize-modules]: https://github.com/substack/browserify-handbook#avoiding-
 [wp-define-plugin]: http://webpack.github.io/docs/list-of-plugins.html#defineplugin
+[ref-express]: http://expressjs.com/

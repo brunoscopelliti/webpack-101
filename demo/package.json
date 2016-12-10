@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint app/**.js",
     "bundle": "env-cmd ./.env.prod webpack",
-    "start": "env-cmd ./.env.dev webpack-dev-server --hot --inline"
+    "start": "env-cmd ./.env.dev node server"
   },
   "devDependencies": {
     "env-cmd": "2.2.0",
@@ -32,6 +32,7 @@
     "babel-preset-react": "6.16.0",
     "css-loader": "0.26.1",
     "email-validator": "1.0.7",
+    "express": "4.14.0",
     "extract-text-webpack-plugin": "2.0.0-beta.4",
     "loader-utils": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz",
     "react": "15.4.1",
