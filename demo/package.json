@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint app/**.js",
     "bundle": "env-cmd ./.env.prod webpack",
-    "start": "env-cmd ./.env.dev webpack-dev-server"
+    "start": "env-cmd ./.env.dev webpack-dev-server --hot --inline"
   },
   "devDependencies": {
     "env-cmd": "2.2.0",
@@ -36,10 +36,12 @@
     "loader-utils": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz",
     "react": "15.4.1",
     "react-dom": "15.4.1",
+    "react-hot-loader": "3.0.0-beta.6",
     "react-redux": "4.4.6",
     "react-router": "3.0.0",
     "redux": "3.6.0",
     "style-loader": "0.13.1",
-    "webpack": "2.1.0-beta.27"
+    "webpack": "2.1.0-beta.27",
+    "webpack-hot-middleware": "2.13.2"
   }
 }

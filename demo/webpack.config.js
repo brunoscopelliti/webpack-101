@@ -12,7 +12,11 @@ const config = {
   // The name is resolved to a module which is loaded upon startup.
   entry: {
     vendor: [ 'react', 'react-dom', 'react-router', 'redux', 'react-redux' ],
-    app: './app/index.js'
+    app: [
+      'react-hot-loader/patch',
+      'webpack-hot-middleware/client',
+      './app/index.js'
+    ],
   },
 
   // Options affecting the resolving of modules.

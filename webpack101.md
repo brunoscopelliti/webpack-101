@@ -1464,6 +1464,125 @@ Let's proceed.
 git checkout 22-hot-reloading
 ```
 
+Hot reloading
+---
+Hot reloading permits to reload a single React component, or Redux reducer
+ when it is modified in the development environment without the need to
+ refresh the browser.
+ It's incredible how much time it permits to save.
+
+There are quite a few things to do in order to enable hot reloading for
+ our application.
+
+Let's start by installing some dependencies we'll need.
+
+```bash
+npm i -S react-hot-loader webpack-hot-middleware
+```
+
+Then let's update our babel configuration to make babel use `react-hot-loader`.
+
+```json
+{
+    "presets": [ "es2015", "react" ],
+    "plugins": ["react-hot-loader/babel"]
+}
+```
+
+`webpack-hot-middleware` is instead added into the bundle.
+
+```js
+const config = {
+  ...
+  entry: {
+    vendor: [ 'react', 'react-dom', 'react-router', 'redux', 'react-redux' ],
+    app: [
+      'react-hot-loader/patch',
+      'webpack-hot-middleware/client',
+      './app/index.js'
+    ],
+  },
+}
+```
+
+Then we've also to add something in the production code; both for React
+ components:
+
+```js
+// app/index.js
+if (module.hot) {
+  module.hot.accept(
+    [
+      'blocks/picker',
+      'components/button',
+      'components/card',
+      'components/github-picker',
+      'components/profile-form/'
+    ],
+    () => {
+
+      const Picker = require('blocks/picker/');
+      const Button = require('components/button/');
+      const GithubPicker = require('components/github-picker/');
+      const Card = require('components/card/');
+      const ProfileForm = require('components/profile-form/');
+
+      renderApp();
+
+    }
+  );
+}
+```
+
+... both for Redux reducers:
+
+```js
+// app/state/index.js
+export function initializeState(initialState = {}){
+  const store = createStore(
+    combineReducers({
+      selectedUser,
+      profile
+    }), 
+    initialState
+  );
+
+  if (module.hot) {
+    module.hot.accept(
+      [
+        './selectedUser/',
+        './profile/'
+      ], 
+      () => {
+        const { updateSelectedUser: selectedUser } = require('./selectedUser/');
+        const { setProfile: profile } = require('./profile/');
+        store.replaceReducer(combineReducers({
+          selectedUser,
+          profile
+        }));
+      }
+    );
+  }
+
+  return store;
+}
+```
+
+Finally we've also to pass some extra flags when running the 
+ `webpack-dev-server` command.
+
+```bash
+webpack-dev-server --hot --inline
+```
+
+Wow this was huge. 
+ Finally in the next step, the last, we're going to replace the simple
+ webpack dev server we used till now with a custom server built on `express`.
+
+```bash
+git checkout 23-express
+```
+
 [wp-cli]: http://webpack.github.io/docs/cli.html
 [ref-iife]: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 [ref-closure]: http://stackoverflow.com/questions/111102/how-do-JavaScript-closures-work
